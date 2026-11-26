@@ -45,19 +45,60 @@
     <div class="meta fade-up" style="--d:1.1s"><span>Version 1.2</span><span>Android 8 and newer</span><span>Open source</span><span>GPL-3.0</span></div>
   </div>
 
-  <div class="art" id="art" aria-hidden="true">
-    <svg class="net" id="net"><path class="near" fill="none" stroke="#161015" stroke-width="2" stroke-dasharray="1 8" stroke-linecap="round"/><path class="far" fill="none" stroke="#161015" stroke-opacity=".3" stroke-width="2" stroke-dasharray="1 8" stroke-linecap="round"/><g class="packets"></g></svg>
-    <div class="cut" id="cut"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M5 5l14 14M19 5L5 19"/></svg>No internet permission</div>
-    <div class="cloud" id="cloud"><svg width="64" height="44" viewBox="0 0 58 40" fill="none" stroke="#161015" stroke-opacity=".45" stroke-width="2"><path d="M15 36h30a10 10 0 0 0 1-20A15 15 0 0 0 17 12 12 12 0 0 0 15 36z" stroke-dasharray="3 4"/></svg><span>the internet</span></div>
-    <div class="phone" id="heroPhone"></div>
-    <div class="bubble">Your secret's <em>safe.</em></div>
-    <div class="boo-host" id="heroBoo"></div>
+  <!-- island scene: a girl on her phone under a tree, Boo keeps the internet cloud away -->
+  <div class="art">
+    <svg class="isl" id="island" viewBox="40 30 600 368" role="img" aria-label="Drawing: a girl sits under a tree looking at her phone while Boo, the BooBoard ghost, keeps the internet cloud away from her.">
+      <defs>
+        <radialGradient id="islS" cx="34%" cy="22%" r="80%"><stop offset="0" stop-color="#4A4247"/><stop offset=".45" stop-color="#211B20"/><stop offset="1" stop-color="#0E0A0D"/></radialGradient>
+        <radialGradient id="islR" cx="85%" cy="60%" r="45%"><stop offset="0" stop-color="#E3F794" stop-opacity=".22"/><stop offset="1" stop-color="#E3F794" stop-opacity="0"/></radialGradient>
+      </defs>
+      <g class="waves" fill="none" stroke="#161015" stroke-width="2" stroke-linecap="round"><path class="dr" pathLength="1" style="animation-delay:.1s" d="M40 340q10-7 20 0t20 0t20 0t20 0t20 0M520 352q10-7 20 0t20 0t20 0t20 0t20 0t20 0M90 372q10-7 20 0t20 0t20 0t20 0t20 0t20 0M380 380q10-7 20 0t20 0t20 0t20 0t20 0"/></g>
+      <path class="df" pathLength="1" style="animation-delay:.2s,1s" d="M140 312C200 280 480 280 548 312C480 330 200 330 140 312Z" fill="#EFFAB8" stroke="#161015" stroke-width="2.4"/>
+      <path class="dr" pathLength="1" style="animation-delay:.9s" fill="none" stroke="#161015" stroke-width="2" stroke-linecap="round" d="M190 300l-3-9M195 299l1-10M200 299l4-8M500 302l-2-9M505 302l2-8M392 296l-2-8M397 296l2-9"/>
+      <path class="dr" pathLength="1" style="animation-delay:.5s" fill="none" stroke="#161015" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M262 300C256 260 252 222 262 182M284 300C278 262 276 222 284 182M266 200C252 184 238 178 222 180M280 192C296 174 312 170 326 172"/>
+      <g class="canopy">
+        <path class="df" pathLength="1" style="animation-delay:.8s,1.8s" d="M178 160C158 140 174 108 204 112C206 86 240 78 258 94C270 72 308 74 318 96C344 88 370 108 358 132C380 144 370 174 344 172C332 188 300 186 290 174C276 188 240 188 228 174C204 184 180 180 178 160Z" fill="#D4EC7A" stroke="#161015" stroke-width="2.6"/>
+        <path class="dr" pathLength="1" style="animation-delay:1.5s" d="M220 136q10-8 18 0M290 120q10-8 18 0M326 148q8-6 16 0M252 158q8-6 16 0" fill="none" stroke="#161015" stroke-width="2" stroke-linecap="round"/>
+      </g>
+      <g stroke="#161015" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+        <path class="df" pathLength="1" style="animation-delay:1.1s,2s" d="M304 238C296 256 296 276 298 294L338 294C336 276 332 254 320 238Z" fill="#C8B6F2"/>
+        <path class="dr" pathLength="1" style="animation-delay:1.3s" fill="none" d="M304 294C320 284 336 272 350 264C356 278 362 290 370 300M312 296C326 288 340 280 354 274C360 284 364 292 376 300"/>
+        <circle class="dr" pathLength="1" style="animation-delay:1.2s" cx="312" cy="222" r="15" fill="none"/>
+        <path class="df" pathLength="1" style="animation-delay:1.2s,2s" d="M297 222C295 204 314 197 327 209C329 213 329 217 327 219C318 213 306 214 300 228Z" fill="#161015"/>
+        <path class="dr" pathLength="1" style="animation-delay:1.4s" fill="none" d="M298 220C287 228 288 242 295 248M317 227q3 2 6 0"/>
+        <g class="arm"><path class="dr" pathLength="1" style="animation-delay:1.5s" fill="none" d="M316 246C324 258 332 260 342 254"/></g>
+        <rect class="df" pathLength="1" style="animation-delay:1.6s,2.2s" x="336" y="236" width="15" height="23" rx="3" transform="rotate(-22 343 248)" fill="#fff"/>
+        <path class="screen-ln" d="M339 244l7-3M340 249l5-2" stroke-width="1.6" transform="rotate(-22 343 248)"/>
+      </g>
+      <g id="islCloud" opacity="0"><g transform="translate(500 70)" stroke="#161015" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10 52C-6 52 -10 34 2 28C2 12 22 4 34 14C42 0 70 2 74 20C90 18 98 34 88 46C84 52 78 54 74 54Z" fill="#fff"/>
+        <path d="M28 24l10 5M60 24l-10 5M38 44q7-5 14 0" fill="none"/>
+        <circle cx="34" cy="34" r="3" fill="#161015" stroke="none"/><circle cx="54" cy="34" r="3" fill="#161015" stroke="none"/>
+      </g></g>
+      <g class="hid">
+        <g transform="translate(410 214) scale(.56)"><ellipse class="sh" cx="50" cy="142" rx="30" ry="4.5"/></g>
+        <g id="islGuard"><g class="boo" transform="translate(410 190) scale(.56)">
+          <g class="g"><path class="bp" fill="url(#islS)"/><path class="br" fill="url(#islR)"/>
+            <g class="e"><ellipse cx="36" cy="50" rx="9" ry="12.5" fill="#E3F794"/><ellipse cx="33" cy="45" rx="2.6" ry="3.4" fill="#fff" opacity=".7"/><ellipse cx="64" cy="50" rx="9" ry="12.5" fill="#E3F794"/><ellipse cx="61" cy="45" rx="2.6" ry="3.4" fill="#fff" opacity=".7"/></g>
+          </g>
+        </g></g>
+      </g>
+      <g id="islBurst" opacity="0"><path d="M466 128l-4-12M480 132l8-10M488 146l12-2M458 136l-10-6" stroke="#161015" stroke-width="2.6" stroke-linecap="round" fill="none"/></g>
+      <g class="plane" fill="none" stroke="#161015" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g transform="translate(0 -4)">
+        <path d="M-74 60q34-8 68-4" stroke-dasharray="3 7"/>
+        <path d="M33 54l-5-8h6l10 8z" fill="#fff"/>
+        <path d="M2 40h8l12 13H58c10 0 18 3 18 7s-6 6-16 6H14C7 66 3 62 3 56z" fill="#fff"/>
+        <path d="M30 61l-9 14h8l17-14z" fill="#fff"/>
+        <path d="M66 55q5 0 7 3" stroke-width="1.8"/>
+        <path d="M26 58h0M33 58h0M40 58h0M47 58h0M54 58h0" stroke-width="3.2"/>
+      </g></g>
+    </svg>
   </div>
 </div>
 
 <!-- ============ TICKER ============ -->
 <div class="ticker" aria-label="No internet permission. Offline voice transcription in English. No account. No cloud. No analytics. Works in airplane mode. Open source.">
-  <div class="track" aria-hidden="true"></div>
+  <div class="mq" id="tickmq" aria-hidden="true"></div>
 </div>
 
 <!-- ============ PROOF ============ -->
@@ -96,13 +137,6 @@
     </div>
     <div class="sdots" id="sdots" role="tablist" aria-label="Feature"></div>
   </div>
-
-  <div class="bento in-view">
-    <div class="card"><span class="lic"><svg viewBox="0 0 24 24" fill="none" stroke="#161015" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4-3 7-7 9-4-2-7-5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></span><b>Encrypted backup</b><p>Save everything to a backup file you keep. No cloud account, no sync.</p></div>
-    <div class="card"><span class="lic"><svg viewBox="0 0 24 24" fill="none" stroke="#161015" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="8.5" cy="10" r="1.3" fill="#161015"/><circle cx="12" cy="7.5" r="1.3" fill="#161015"/><circle cx="15.5" cy="10" r="1.3" fill="#161015"/><path d="M12 21c-2 0-2-3 0-3s3-1 3-3"/></svg></span><b>Themes</b><p>Light, dark and pure black, three contrast levels, and a theme editor with a live preview.</p></div>
-    <div class="card"><span class="lic"><svg viewBox="0 0 24 24" fill="none" stroke="#161015" stroke-width="2" stroke-linecap="round"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 10h.01M11 10h.01M15 10h.01M7 14h10"/></svg></span><b>Made to fit</b><p>One-handed and floating modes, adjustable height, haptics and sounds, a text-editing pad and shortcuts.</p></div>
-    <div class="card" style="background:var(--lime);box-shadow:inset 0 0 0 1.5px var(--ink)"><span class="lic" style="background:var(--ink)"><svg viewBox="0 0 24 24" fill="none" stroke="#E3F794" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4-3 7-7 9-4-2-7-5-7-9V6z"/></svg></span><b>See what's stored</b><p>The privacy screen shows how much is stored, never what it says. Delete any of it.</p></div>
-  </div>
 </section>
 
 <!-- ============ LANGUAGES ============ -->
@@ -115,7 +149,6 @@
     <div class="mq" id="mq1"></div>
     <div class="mq rev" id="mq2"></div>
   </div>
-  <div class="wrap"><div class="langlist" id="langlist"></div></div>
 </section>
 
 <!-- ============ COMING: IMAGES ============ -->
@@ -164,11 +197,6 @@
     <div class="cta in-view">
       <a class="btn dark" href="https://github.com/knandu18/booboard/releases/latest/download/app-arm64-v8a-foss-release.apk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v12m0 0l-5-5m5 5l5-5M5 20h14"/></svg>Download APK</a>
       <a class="btn line" href="https://github.com/knandu18/booboard/releases/latest">Other phones and checksums</a>
-    </div>
-    <div class="steps3 in-view">
-      <div><b>1</b>Tap Download on your phone.</div>
-      <div><b>2</b>Open the file and allow the install.</div>
-      <div><b>3</b>Open BooBoard. Six short steps turn it on.</div>
     </div>
   </div>
 </section>

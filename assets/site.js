@@ -58,7 +58,7 @@ function paintBoo(b, t, still) {
   b.p.setAttribute('d', d); b.r.setAttribute('d', d);
   const sx = 1 - 0.035 * Math.abs(lean) + 0.02 * bob, sy = 1 - 0.02 * bob;
   b.g.setAttribute('transform', `translate(0 ${(-6 * (1 - bob)).toFixed(2)}) translate(50 66) rotate(${(4 * lean).toFixed(2)}) scale(${sx.toFixed(4)} ${sy.toFixed(4)}) translate(-50 -66)`);
-  b.e.setAttribute('transform', `translate(${(5 * lean + 4 * b.look).toFixed(2)} ${(-1.2 * bob).toFixed(2)})`);
+  b.e.setAttribute('transform', `translate(${(5 * lean + 4 * b.look).toFixed(2)} ${(-1.2 * bob + 4 * (b.lookY || 0)).toFixed(2)})`);
   const up = (1 - bob) / 2;
   b.sh.setAttribute('rx', (30 - 6 * up).toFixed(2));
   b.sh.setAttribute('fill', `rgba(22,16,21,${(0.24 - 0.09 * up).toFixed(3)})`);
@@ -98,66 +98,50 @@ function phoneHTML(inner) {
   return `<div class="screen"><div class="sbar"><span>9:41</span><span>● ● ▮</span></div>${inner}</div>`;
 }
 
-/* ---------- hero typing demo ---------- */
-const heroPhone = document.getElementById('heroPhone');
-heroPhone.innerHTML = phoneHTML(`
-  <div class="chat-head"><span class="av">S</span><span>Sam<small>Messages</small></span></div>
-  <div class="thread" id="thread"></div>
-  <div class="compose"><div class="field" id="field"><span class="ph">Text message</span></div><span class="send" id="send"><svg width="18" height="18" viewBox="0 0 24 24" fill="#E3F794"><path d="M3 20l18-8L3 4v6l12 2-12 2z"/></svg></span></div>
-  ${kbHTML()}`);
-io.observe(heroPhone);
-const H = {
-  kb: heroPhone.querySelector('.kb'), field: heroPhone.querySelector('#field'), thread: heroPhone.querySelector('#thread'),
-  strip: heroPhone.querySelectorAll('.strip span'), pop: heroPhone.querySelector('.popkey'), trail: heroPhone.querySelector('.trail'),
-  spl: heroPhone.querySelector('.spl'), chip: heroPhone.querySelector('.lang-chip'), send: heroPhone.querySelector('#send'),
-  vo: heroPhone.querySelector('.vo'), mic: heroPhone.querySelector('.micb'),
+/* ---------- hero: island scene. Boo (real BooMotion) keeps the internet cloud away from the girl ---------- */
+const island = document.getElementById('island');
+const islBoo = (() => {
+  const q = (s) => island.querySelector(s);
+  // look/lookY steer the eyes: down-left = watching the girl, up-right = watching the cloud
+  const b = { host: island, look: -1.6, lookY: 0.8, phase: 0.9, g: q('.boo .g'), p: q('.bp'), r: q('.br'), e: q('.boo .e'), sh: q('.sh'), still: false };
+  boos.push(b); io.observe(island); paintBoo(b, 0, true);
+  return b;
+})();
+const islGuard = document.getElementById('islGuard'), islCloud = document.getElementById('islCloud'), islBurst = document.getElementById('islBurst');
+// keyframes over one 8 s loop: [time 0..1, values...], eased between neighbours
+const KF = {
+  cloud: [[0, 220, -24, 0, 1, 1, 0], [.1, 196, -16, 0, 1, 1, 1], [.46, -18, 52, 0, 1, 1, 1], [.51, -10, 48, 0, .9, 1.1, 1], [.63, 50, 18, 12, 1, 1, 1], [.82, 240, -30, 16, 1, 1, 0], [1, 240, -30, 16, 1, 1, 0]],
+  guard: [[0, 0, 0, 0], [.36, 0, 0, 0], [.47, 26, -46, 9], [.56, 26, -46, 9], [.7, 0, 0, 0], [1, 0, 0, 0]],
+  look: [[0, -1.6, .8], [.08, -1.6, .8], [.16, 2.2, -1.4], [.62, 2.2, -1.4], [.74, -1.6, .8], [1, -1.6, .8]],
+  burst: [[0, 0, .4], [.44, 0, .4], [.48, 1, 1], [.58, 0, 1.25], [1, 0, 1.25]],
 };
+const ease = (x) => x < .5 ? 2 * x * x : 1 - (-2 * x + 2) ** 2 / 2;
+function at(kf, p) {
+  let i = 0; while (i < kf.length - 2 && p > kf[i + 1][0]) i++;
+  const a = kf[i], b = kf[i + 1], k = ease(Math.min(1, Math.max(0, (p - a[0]) / (b[0] - a[0]))));
+  return a.slice(1).map((v, j) => v + (b[j + 1] - v) * k);
+}
+function islPose(p) {
+  const [cx, cy, cr, csx, csy, co] = at(KF.cloud, p), [gx, gy, gr] = at(KF.guard, p), [lx, ly] = at(KF.look, p), [bo, bs] = at(KF.burst, p);
+  islCloud.setAttribute('transform', `translate(${cx.toFixed(1)} ${cy.toFixed(1)}) translate(545 97) rotate(${cr.toFixed(2)}) scale(${csx.toFixed(3)} ${csy.toFixed(3)}) translate(-545 -97)`);
+  islCloud.setAttribute('opacity', co.toFixed(3));
+  islGuard.setAttribute('transform', `translate(${gx.toFixed(1)} ${gy.toFixed(1)}) translate(438 228) rotate(${gr.toFixed(2)}) translate(-438 -228)`);
+  islBurst.setAttribute('transform', `translate(14 4) translate(474 138) scale(${bs.toFixed(3)}) translate(-474 -138)`);
+  islBurst.setAttribute('opacity', bo.toFixed(3));
+  islBoo.look = lx; islBoo.lookY = ly;
+}
+const ISL_START = performance.now() + 2600;           // after the drawing has drawn itself in
+function islTick(now) {
+  if (RM()) { islPose(0.3); islBoo.look = 2.2; islBoo.lookY = -1.4; paintBoo(islBoo, 0, true); }   // still: cloud held off, Boo watching it
+  else if (vis.get(island)) islPose(Math.max(0, (now - ISL_START) / 8000) % 1);
+  requestAnimationFrame(islTick);
+}
+requestAnimationFrame(islTick);
+// phones: crop to the middle of the drawing so the girl, tree, Boo and cloud come out bigger
+const islNarrow = matchMedia('(max-width: 600px)');
+const islFit = () => island.setAttribute('viewBox', islNarrow.matches ? '128 30 456 366' : '40 30 600 368');
+islNarrow.addEventListener('change', islFit); islFit();
 
-/* ---------- the cut internet line: phone -> (cut) -> cloud ---------- */
-const art = document.getElementById('art'), net = document.getElementById('net'), cutEl = document.getElementById('cut'), cloudEl = document.getElementById('cloud');
-const NS = 'http://www.w3.org/2000/svg';
-let nearPts = [];
-const packets = [0, 1, 2].map((i) => { const c = document.createElementNS(NS, 'circle'); c.setAttribute('r', '4.5'); c.setAttribute('fill', '#161015'); c.style.opacity = 0; net.querySelector('.packets').appendChild(c); return { c, ph: i / 3 }; });
-function layoutNet() {
-  const px = heroPhone.offsetLeft, py = heroPhone.offsetTop, up = innerWidth <= 600;
-  const show = up || px >= 190;
-  for (const el of [net, cutEl, cloudEl]) el.style.visibility = show ? '' : 'hidden';
-  if (!show) { nearPts = []; return; }
-  const tmp = document.createElementNS(NS, 'path');
-  let cx, cy;
-  if (up) {                                   // phones: from the top of the phone straight up to the cloud
-    const sx = px + 160, sy = py + 2;
-    cx = sx + 14; cy = 34;
-    tmp.setAttribute('d', `M${sx} ${sy} C${sx - 46} ${sy - 50}, ${cx + 46} ${cy + 90}, ${cx} ${cy + 30}`);
-  } else {                                    // desktop: from the left edge of the phone to a cloud top-left
-    const sx = px - 4, sy = py + 150; cx = Math.max(56, px * 0.26); cy = 46;
-    tmp.setAttribute('d', `M${sx} ${sy} C${sx - 90} ${sy - 4}, ${cx + 20} ${cy + 120}, ${cx} ${cy + 34}`);
-  }
-  net.appendChild(tmp);
-  const L = tmp.getTotalLength(), pts = (a, b, n = 30) => Array.from({ length: n + 1 }, (_, i) => tmp.getPointAtLength(L * (a + (b - a) * i / n)));
-  nearPts = pts(0, up ? 0.36 : 0.4);
-  const poly = (ps) => 'M' + ps.map((p) => `${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' L');
-  net.querySelector('.near').setAttribute('d', poly(nearPts));
-  net.querySelector('.far').setAttribute('d', poly(pts(up ? 0.74 : 0.72, 1)));
-  const m = tmp.getPointAtLength(L * (up ? 0.55 : 0.56));
-  tmp.remove();
-  cutEl.style.left = m.x + 'px'; cutEl.style.top = m.y + 'px';
-  cloudEl.style.left = cx + 'px'; cloudEl.style.top = cy + 'px';
-}
-function netTick(now) {
-  if (nearPts.length && !RM() && vis.get(heroPhone)) {
-    for (const p of packets) {
-      const t = ((now / 2400) + p.ph) % 1, k = Math.min(nearPts.length - 1, Math.floor(t * nearPts.length * 1.05));
-      const pt = nearPts[k];
-      p.c.setAttribute('cx', pt.x); p.c.setAttribute('cy', pt.y);
-      p.c.style.opacity = t < .1 ? t / .1 : t > .8 ? Math.max(0, 1 - (t - .8) / .15) : 1;
-      p.c.setAttribute('r', (4.5 * (t > .8 ? Math.max(.2, 1 - (t - .8) * 4) : 1)).toFixed(2));
-    }
-  } else packets.forEach((p) => (p.c.style.opacity = 0));
-  requestAnimationFrame(netTick);
-}
-layoutNet(); addEventListener('resize', layoutNet); document.fonts.ready.then(layoutNet);
-requestAnimationFrame(netTick);
 let GEN = 0;
 const CANCEL = Symbol('cancel');
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -173,28 +157,7 @@ function press(kb, pop, ch) {
     pop.classList.add('on'); clearTimeout(pop._t); pop._t = setTimeout(() => pop.classList.remove('on'), 140);
   }
 }
-const NEXT = { yes: ['see', 'I', 'sure'], see: ['you', 'it', 'the'], you: ['at', 'there', 'soon'], at: ['the', '7', 'home'], the: ['café', 'park', 'station'], on: ['it', 'my', 'the'], it: ['.', 'now', 'today'], door: ['code', 'is', 'key'], code: ['is', 'for', 'was'], is: ['4471', 'the', 'in'], hasta: ['luego', 'mañana', 'pronto'] };
-const COMP = { see: ['seen', 'seems'], you: ['your', "you're"], the: ['then', 'they'], door: ['doors', 'doorbell'], code: ['codes', 'coded'], hasta: ['hasta', 'hast'], luego: ['luego', 'lugar'], is: ['it', 'in'], on: ['one', 'only'], it: ['its', "it's"], yes: ['yet', 'yeah'], at: ['as', 'after'], namaste: ['namaste', 'नमस्ते'] };
 function setStrip(strip, a, b, c, hl) { [a, b, c].forEach((t, i) => { strip[i].textContent = t || ''; strip[i].className = i === 1 ? (hl ? 'hl' : 'best') : ''; }); }
-let committed = '', composing = '';
-function renderField(f) {
-  if (!committed && !composing) { f.innerHTML = '<span class="ph">Text message</span>'; return; }
-  const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
-  f.innerHTML = `<span>${esc(committed)}${composing ? `<u>${esc(composing)}</u>` : ''}<span class="caret"></span></span>`;
-}
-function suggestFor(word) {
-  const w = word.toLowerCase(), alt = COMP[w] || COMP[Object.keys(COMP).find((k) => k.startsWith(w)) || ''] || [];
-  const full = Object.keys(COMP).find((k) => k.startsWith(w) && k !== w);
-  setStrip(H.strip, `“${word}”`, full || word, alt[0] === full ? alt[1] : alt[0]);
-}
-async function tapWord(gen, word, { delay = 105 } = {}) {
-  for (const ch of word) {
-    if (ch === ' ') { press(H.kb, H.pop, ' '); committed += composing + ' '; const last = composing.toLowerCase(); composing = ''; const n = NEXT[last]; setStrip(H.strip, n?.[0], n?.[1], n?.[2]); }
-    else { press(H.kb, H.pop, ch.toLowerCase()); composing += ch; suggestFor(composing); }
-    renderField(H.field);
-    await wait(gen, delay + Math.random() * 60, heroPhone);
-  }
-}
 function trailPath(kb, word) {
   const pts = [...word].map((ch) => keyEl(kb, ch)).filter(Boolean).map((el) => center(kb, el));
   if (pts.length < 2) return '';
@@ -215,67 +178,6 @@ async function swipeWord(gen, kb, trail, word, ms = 900) {
   await wait(gen, ms + 120);
   p.style.transition = 'opacity .35s'; p.style.opacity = 0;
 }
-async function sendMsg(gen) {
-  H.send.classList.add('tap'); setTimeout(() => H.send.classList.remove('tap'), 180);
-  const m = document.createElement('div'); m.className = 'msg out'; m.textContent = (committed + composing).trim();
-  H.thread.appendChild(m); committed = ''; composing = ''; renderField(H.field); setStrip(H.strip, '', '', '');
-  await wait(gen, 300);
-}
-// incoming message, as in the Jitter scene: the bubble pops in, then its words appear one by one
-async function incoming(gen, text) {
-  const m = document.createElement('div'); m.className = 'msg in';
-  m.innerHTML = text.split(' ').map((w) => `<span class="wd">${w}</span>`).join(' ');
-  H.thread.appendChild(m);
-  await wait(gen, 250, heroPhone);
-  for (const w of m.querySelectorAll('.wd')) { w.classList.add('on'); await wait(gen, 100); }
-}
-function setLang(name) { H.spl.textContent = name; H.chip.textContent = name; H.chip.classList.add('on'); setTimeout(() => H.chip.classList.remove('on'), 1100); }
-
-function heroStatic() {
-  H.thread.innerHTML = '<div class="msg in">are we still on for thursday?</div><div class="msg out">yes! see you at the café</div><div class="msg in">bring the spare key 🔑</div>';
-  H.vo.classList.remove('on'); H.mic.classList.remove('on');
-  committed = 'on it. door code is 4471'; composing = ''; renderField(H.field); H.field.querySelector('.caret')?.remove();
-  setStrip(H.strip, 'the', 'in', 'for'); H.spl.textContent = 'English';
-}
-async function heroLoop(gen) {
-  try {
-    for (;;) {
-      H.thread.innerHTML = ''; committed = ''; composing = ''; renderField(H.field); setStrip(H.strip, '', '', ''); H.spl.textContent = 'English';
-      await wait(gen, 600, heroPhone);
-      await incoming(gen, 'are we still on for thursday?');
-      await wait(gen, 600, heroPhone);
-      await tapWord(gen, 'yes ');
-      await tapWord(gen, 'see you at the ');
-      setStrip(H.strip, '', '', '');
-      await swipeWord(gen, H.kb, H.trail, 'cafe');
-      composing = 'cafe'; renderField(H.field); setStrip(H.strip, 'cafe', 'café', 'cafes', true);
-      await wait(gen, 650);
-      composing = 'café'; renderField(H.field);
-      await wait(gen, 500, heroPhone);
-      await sendMsg(gen);
-      await wait(gen, 900, heroPhone);
-      await incoming(gen, 'bring the spare key 🔑');
-      await wait(gen, 600, heroPhone);
-      await tapWord(gen, 'on it. door code is 4471', { delay: 95 });
-      await wait(gen, 500, heroPhone);
-      await sendMsg(gen);
-      await wait(gen, 900, heroPhone);
-      await incoming(gen, 'what do we need from the shop?');
-      await wait(gen, 600, heroPhone);
-      H.mic.classList.add('on'); await wait(gen, 250); H.vo.classList.add('on'); setStrip(H.strip, '', '', '');
-      await wait(gen, 700, heroPhone);
-      for (const w of ['oat', 'milk,', 'bread', 'and', 'some', 'limes']) { composing = composing ? composing + ' ' + w : w; renderField(H.field); await wait(gen, 280 + Math.random() * 180, heroPhone); }
-      await wait(gen, 700); H.vo.classList.remove('on'); H.mic.classList.remove('on');
-      committed += composing; composing = ''; renderField(H.field);
-      await wait(gen, 600, heroPhone);
-      await sendMsg(gen);
-      await wait(gen, 2600, heroPhone);
-      H.thread.querySelectorAll('.msg').forEach((m) => { m.style.transition = 'opacity .5s'; m.style.opacity = 0; });
-      await wait(gen, 600);
-    }
-  } catch (e) { if (e !== CANCEL) throw e; }
-}
-
 /* ---------- story phone (features) ---------- */
 const storyPhone = document.getElementById('storyPhone');
 storyPhone.innerHTML = phoneHTML(`<div class="story-screen">
@@ -371,15 +273,13 @@ function storyStatic() {
 /* ---------- ticker, languages ---------- */
 const tick = ['No internet permission', 'Offline voice transcription in English', 'No account', 'No cloud', 'No analytics', 'Works in airplane mode', 'Open source'];
 document.querySelectorAll('.boo-glyph').forEach((el) => (el.outerHTML = booGlyph));
-document.querySelector('.ticker .track').innerHTML = [0, 1].map(() => `<span>${tick.map((t) => `${t}${booGlyph}`).join('')}</span>`).join('');
+document.getElementById('tickmq').innerHTML = [0, 1].map(() => tick.map((t, i) => `<span class="hello ${i % 3 === 1 ? 'dark' : ''}">${booGlyph}<b>${t}</b></span>`).join('')).join('');
 const HELLO = [['Hello', 'English'], ['Hola', 'Español'], ['Bonjour', 'Français'], ['Hallo', 'Deutsch'], ['Olá', 'Português'], ['Halo', 'Bahasa Indonesia'], ['Kumusta', 'Filipino'], ['नमस्ते', 'हिन्दी'], ['नमस्कार', 'मराठी'],
   ['নমস্কার', 'বাংলা'], ['வணக்கம்', 'தமிழ்'], ['నమస్కారం', 'తెలుగు'], ['مرحبا', 'العربية'], ['آداب', 'اردو'], ['Привет', 'Русский'], ['Привіт', 'Українська'], ['你好', '中文'], ['こんにちは', '日本語']];
 const pill = ([h, n], i) => `<span class="hello ${i % 5 === 2 ? 'dark' : ''}"><b lang="">${h}</b><small>${n}</small></span>`;
 const half = Math.ceil(HELLO.length / 2);
 document.getElementById('mq1').innerHTML = [0, 1].map(() => HELLO.slice(0, half).map(pill).join('')).join('');
 document.getElementById('mq2').innerHTML = [0, 1].map(() => HELLO.slice(half).map((x, i) => pill(x, i + 1)).join('')).join('');
-document.getElementById('langlist').innerHTML = ['English', 'Spanish', 'French', 'German', 'Portuguese (Brazil and Portugal)', 'Indonesian', 'Filipino (Taglish too)', 'Hindi (Devanagari, InScript or English letters)', 'Marathi', 'Bengali', 'Tamil', 'Telugu', 'Arabic', 'Urdu', 'Russian', 'Ukrainian', 'Chinese (Simplified, pinyin)', 'Japanese (flick or romaji)'].map((l) => `<div>${l}</div>`).join('');
-
 /* ---------- coming: "denoise" canvas (an animation of the idea) ---------- */
 const gen = document.getElementById('gen'), gctx = gen.getContext('2d'), genStep = document.getElementById('genStep');
 const N = 192, target = (() => {
@@ -453,12 +353,11 @@ addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 10),
 
 /* ---------- start / restart all demos (reduced motion = static) ---------- */
 const dlBoo = mountBoo(document.getElementById('dlBoo'), { size: 170 });
-mountBoo(document.getElementById('heroBoo'), { size: 140, look: 1, label: 'Boo, the BooBoard ghost' });
 function start() {
   GEN++;
   document.documentElement.classList.toggle('rm', RM());
-  if (RM()) { heroStatic(); storyStatic(); drawGen(1); genStep.textContent = 'Step 24 / 24'; H.trail.innerHTML = ''; return; }
-  heroLoop(GEN); storyLoop(GEN); genLoop(GEN);
+  if (RM()) { storyStatic(); drawGen(1); genStep.textContent = 'Step 24 / 24'; return; }
+  storyLoop(GEN); genLoop(GEN);
 }
 mq.addEventListener('change', start);
 start();
