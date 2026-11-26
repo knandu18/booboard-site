@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://booboard.com/sitemap.xml

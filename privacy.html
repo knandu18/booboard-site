@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'; manifest-src 'self'">
+<meta name="referrer" content="no-referrer">
+<title>Privacy policy: BooBoard</title>
+<meta name="description" content="How BooBoard and booboard.com handle your data: the keyboard has no internet permission and sends nothing anywhere.">
+<link rel="canonical" href="https://booboard.com/privacy.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BooBoard">
+<meta property="og:title" content="Privacy policy: BooBoard">
+<meta property="og:description" content="How BooBoard and booboard.com handle your data: the keyboard has no internet permission and sends nothing anywhere.">
+<meta property="og:url" content="https://booboard.com/privacy.html">
+<meta name="theme-color" content="#E3F794">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/site.css">
+</head>
+<body>
+<a class="sr" href="#main">Skip to content</a>
+<header class="nav scrolled" id="nav">
+  <div class="wrap">
+    <a class="logo" href="/" aria-label="BooBoard home"><svg viewBox="0 0 100 134" aria-hidden="true"><defs><radialGradient id="lg" cx="34%" cy="22%" r="80%"><stop offset="0" stop-color="#4A4247"/><stop offset=".45" stop-color="#211B20"/><stop offset="1" stop-color="#0E0A0D"/></radialGradient></defs><path d="M6 116C8 92 13 73 14 50C14 22 30 4 50 4C70 4 86 22 86 50C87 73 92 92 94 116C94 121 87.04 122.85 78.04 122.85C71.04 122.85 70.74 113.01 63.74 113.01C56.74 113.01 55.48 121.58 48.48 121.58C41.48 121.58 41.65 112.49 34.65 112.49C27.65 112.49 28 125 21 125C12 125 6 121 6 116Z" fill="url(#lg)"/><ellipse cx="36" cy="50" rx="9" ry="12.5" fill="#E3F794"/><ellipse cx="64" cy="50" rx="9" ry="12.5" fill="#E3F794"/></svg>BooBoard</a>
+    <ul>
+      <li><a href="/#privacy">Privacy</a></li>
+      <li><a href="/#features">Features</a></li>
+      <li><a href="/#languages">Languages</a></li>
+      <li><a href="/faq.html">FAQ</a></li>
+    </ul>
+    <a class="btn dark" href="/#download">Download</a>
+  </div>
+</header>
+<main id="main" class="doc">
+  <h1 class="h h1">Privacy <em>policy</em></h1>
+  <p class="updated">Last updated 26 November 2026</p>
+  <div class="card-note"><b>The short version:</b> BooBoard works offline and sends nothing anywhere. It has no internet permission, so it cannot send what you type or say to us or to anyone else. We have no servers that collect your data, and no account to sign in to.</div>
+
+  <h2>The BooBoard app</h2>
+  <p>BooBoard is an Android keyboard. Its release builds do not ask Android for internet or network access, and the build fails if that permission ever appears. You can check this in the app's permissions on your phone or in the <a href="https://github.com/knandu18/booboard">source code</a>.</p>
+  <ul>
+    <li><b>What you type</b> stays on your phone. Predictions, autocorrect, swipe typing and translation all run on the phone.</li>
+    <li><b>What BooBoard learns</b> (new words, phrases and clipboard history) is stored on your phone, encrypted with a key held in Android Keystore. It is never synced or backed up to any cloud. You can see how much is stored, and delete it, in BooBoard's Privacy screen.</li>
+    <li><b>Incognito:</b> nothing is learned in password fields, in browser incognito tabs, or in apps you choose.</li>
+    <li><b>Voice typing</b> (English) runs on your phone. Audio stays in memory while you dictate and is never saved or sent.</li>
+    <li><b>Backups</b> are encrypted files that you create and keep. BooBoard never uploads them.</li>
+    <li><b>Permissions:</b> BooBoard asks only for the microphone (for voice typing, and only if you turn it on) and vibration (for key taps).</li>
+    <li><b>No analytics, no ads, no crash reporting and no tracking</b> of any kind.</li>
+  </ul>
+
+  <h2>Optional packs</h2>
+  <p>Voice, translation and some dictionaries come as optional packs. BooBoard never downloads them itself: when you choose Download, your web browser fetches the file from GitHub, and you then import it into BooBoard. That download is between your browser and GitHub, under <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub's privacy statement</a>. Packs contain data only, never code, and BooBoard checks their signature before installing them.</p>
+
+  <h2>This website</h2>
+  <p>booboard.com has no cookies, no analytics, no trackers and no forms, and it loads nothing from any other site: its fonts, images and scripts are all served from booboard.com. The site is hosted on GitHub Pages. Like most web hosts, GitHub keeps standard server logs, which can include your IP address, for security and to run the service; see <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub's privacy statement</a>. We don't receive or look at those logs.</p>
+  <p>Downloading BooBoard from the releases page also goes through GitHub.</p>
+
+  <h2>Children</h2>
+  <p>BooBoard collects no personal information from anyone, including children.</p>
+
+  <h2>Changes</h2>
+  <p>If this policy changes, the new version will be posted on this page with a new date. Because BooBoard has no internet access, a change to this policy can never make the app start sending data; that would need a new app version that asks for internet access, which Android would show you.</p>
+
+  <h2>Contact</h2>
+  <p>Questions about privacy: open an issue on <a href="https://github.com/knandu18/booboard/issues">GitHub</a>.</p>
+</main>
+<footer>
+  <div class="wrap">
+    <div class="top">
+      <div class="tag">Made to keep your <em>secrets.</em></div>
+      <div><h4>BooBoard</h4><ul><li><a href="#download">Download</a></li><li><a href="/privacy.html">Privacy policy</a></li><li><a href="/faq.html">FAQ</a></li></ul></div>
+      <div><h4>Open source</h4><ul><li><a href="https://github.com/knandu18/booboard">Source code</a></li><li><a href="https://github.com/knandu18/booboard/releases">Releases</a></li><li><a href="https://github.com/knandu18/booboard/blob/main/LICENSE">GPL-3.0 licence</a></li></ul></div>
+    </div>
+    <div class="fine">
+      <span>This site has no cookies, analytics or trackers, and loads nothing from anyone else. It's hosted on GitHub Pages, which keeps standard server logs.</span>
+      <span>© 2026 BooBoard</span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

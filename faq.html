@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'; manifest-src 'self'">
+<meta name="referrer" content="no-referrer">
+<title>FAQ: BooBoard</title>
+<meta name="description" content="Answers about BooBoard, the private offline Android keyboard: privacy, install, voice, languages and updates.">
+<link rel="canonical" href="https://booboard.com/faq.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BooBoard">
+<meta property="og:title" content="FAQ: BooBoard">
+<meta property="og:description" content="Answers about BooBoard, the private offline Android keyboard: privacy, install, voice, languages and updates.">
+<meta property="og:url" content="https://booboard.com/faq.html">
+<meta name="theme-color" content="#E3F794">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/site.css">
+</head>
+<body>
+<a class="sr" href="#main">Skip to content</a>
+<header class="nav scrolled" id="nav">
+  <div class="wrap">
+    <a class="logo" href="/" aria-label="BooBoard home"><svg viewBox="0 0 100 134" aria-hidden="true"><defs><radialGradient id="lg" cx="34%" cy="22%" r="80%"><stop offset="0" stop-color="#4A4247"/><stop offset=".45" stop-color="#211B20"/><stop offset="1" stop-color="#0E0A0D"/></radialGradient></defs><path d="M6 116C8 92 13 73 14 50C14 22 30 4 50 4C70 4 86 22 86 50C87 73 92 92 94 116C94 121 87.04 122.85 78.04 122.85C71.04 122.85 70.74 113.01 63.74 113.01C56.74 113.01 55.48 121.58 48.48 121.58C41.48 121.58 41.65 112.49 34.65 112.49C27.65 112.49 28 125 21 125C12 125 6 121 6 116Z" fill="url(#lg)"/><ellipse cx="36" cy="50" rx="9" ry="12.5" fill="#E3F794"/><ellipse cx="64" cy="50" rx="9" ry="12.5" fill="#E3F794"/></svg>BooBoard</a>
+    <ul>
+      <li><a href="/#privacy">Privacy</a></li>
+      <li><a href="/#features">Features</a></li>
+      <li><a href="/#languages">Languages</a></li>
+      <li><a href="/faq.html">FAQ</a></li>
+    </ul>
+    <a class="btn dark" href="/#download">Download</a>
+  </div>
+</header>
+<main id="main" class="doc faq">
+  <h1 class="h h1">Questions, <em>answered.</em></h1>
+  <p class="updated">Can't find yours? Ask on <a href="https://github.com/knandu18/booboard/issues">GitHub</a>.</p>
+  <details><summary>Does BooBoard really never go online?</summary><p>Yes. Its release builds don't ask Android for internet or network access, and the build fails if that permission ever sneaks in. Without that permission Android itself blocks the app from the network. You can check the app's permissions on your phone, or read the release manifest in the <a href="https://github.com/knandu18/booboard">source code</a>.</p></details>
+  <details><summary>Why does Android warn me when I turn it on?</summary><p>Android shows the same warning for every keyboard you add, because a keyboard can see what you type and could send it online. BooBoard can't: it has no internet permission.</p></details>
+  <details><summary>Which phones does it work on?</summary><p>Android 8 and newer. Most phones need the <b>arm64-v8a</b> file; older phones need <b>armeabi-v7a</b>. All files and their checksums are on the <a href="https://github.com/knandu18/booboard/releases/latest">releases page</a>.</p></details>
+  <details><summary>How do I install it?</summary><p>Open the Download link on your phone, open the file and allow the install. Then open BooBoard: six short steps turn it on and pick your languages.</p></details>
+  <details><summary>How does voice typing work?</summary><p>Voice transcription works in English, fully offline, using NVIDIA Parakeet on your phone. It needs the voice pack (662 MB) and about 700 MB of free memory while you dictate. In BooBoard's Settings, Voice, Model packs, tap Download: your browser fetches the pack, then Import installs it. Audio is never saved or sent.</p></details>
+  <details><summary>Which languages does it support?</summary><p>English, Spanish, French, German, Portuguese (Brazil and Portugal), Indonesian, Filipino, Hindi (Devanagari, InScript or English letters, plus Hinglish), Marathi, Bengali, Tamil, Telugu, Arabic, Urdu, Russian, Ukrainian, Chinese (Simplified, pinyin) and Japanese (12-key flick or romaji). Several can be on at once.</p></details>
+  <details><summary>Can it translate?</summary><p>Yes, offline, with translation packs. English to Spanish works today; more directions (French, German, Portuguese, Hindi, Russian) are planned.</p></details>
+  <details><summary>Is it free?</summary><p>Yes. BooBoard is free and open source under GPL-3.0, with no ads, no account and no in-app purchases.</p></details>
+  <details><summary>How do I get updates?</summary><p>Download the new version from the <a href="https://github.com/knandu18/booboard/releases">releases page</a> and install it over the old one; your settings and learned words stay. Google Play and F-Droid listings are being prepared.</p></details>
+  <details><summary>What happens to my data if I uninstall?</summary><p>Android deletes BooBoard's data when you uninstall it. To keep your learned words and settings, make an encrypted backup first in BooBoard's Privacy screen.</p></details>
+  <details><summary>Can it make pictures?</summary><p>Not yet. Offline image generation is coming in a later update, as an optional pack that will run on your phone like everything else.</p></details>
+</main>
+<footer>
+  <div class="wrap">
+    <div class="top">
+      <div class="tag">Made to keep your <em>secrets.</em></div>
+      <div><h4>BooBoard</h4><ul><li><a href="#download">Download</a></li><li><a href="/privacy.html">Privacy policy</a></li><li><a href="/faq.html">FAQ</a></li></ul></div>
+      <div><h4>Open source</h4><ul><li><a href="https://github.com/knandu18/booboard">Source code</a></li><li><a href="https://github.com/knandu18/booboard/releases">Releases</a></li><li><a href="https://github.com/knandu18/booboard/blob/main/LICENSE">GPL-3.0 licence</a></li></ul></div>
+    </div>
+    <div class="fine">
+      <span>This site has no cookies, analytics or trackers, and loads nothing from anyone else. It's hosted on GitHub Pages, which keeps standard server logs.</span>
+      <span>© 2026 BooBoard</span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
