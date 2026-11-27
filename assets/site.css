@@ -115,20 +115,11 @@ img, svg { display: block; }
   .art { max-width: 760px; margin: 0 auto; width: 100%; }
 }
 /* phones: JS crops the drawing to its middle, so the people come out bigger */
-.sea-fill { display: none; }
-/* phones: the hero is exactly one screen tall and the sea carries on below the drawing to the bottom of the
-   screen (more drifting waves in it), fading out at its end; the dark comparison card follows right after */
 @media (max-width: 600px) {
-  .hero { display: flex; flex-direction: column; align-items: stretch; min-height: calc(100svh - 76px); padding-bottom: 0; }
-  .art { margin: 4px calc(-1 * var(--pad)) 0; width: auto; flex: 1; display: flex; flex-direction: column; }
-  #privacy.sec { padding-top: 16px; }
-  .isl { flex: none; display: block; -webkit-mask-image: none; mask-image: none; }
-  /* at least ~72px of sea even when the screen is short; its last 44px fade softly into the page */
-  .sea-fill { display: block; flex: 1; min-height: 72px; margin-top: -1px;
-    -webkit-mask-image: linear-gradient(#000 calc(100% - 44px), transparent); mask-image: linear-gradient(#000 calc(100% - 44px), transparent); background: #A9DDF7 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='64'%3E%3Cpath d='M14 18q8-5 16 0t16 0t16 0M92 46q8-5 16 0t16 0' fill='none' stroke='%233E97CF' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E") 0 6px / 160px 64px; animation: seaFill 10s linear infinite; }
+  .hero { padding-bottom: 32px; }
+  .art { margin: 4px calc(-1 * var(--pad)) 0; width: auto; }
   .isl .plane { --pf: 46px; }
 }
-@keyframes seaFill { to { background-position: 160px 6px; } }
 
 /* ---------- phone + placeholder keyboard ---------- */
 .phone { width: 320px; height: 656px; border-radius: 48px; background: #0E0A0D; padding: 9px; box-shadow: 0 40px 80px -30px rgba(22,16,21,.45), 0 2px 0 rgba(255,255,255,.08) inset; }
