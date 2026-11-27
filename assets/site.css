@@ -171,8 +171,8 @@ section { position: relative; }
 .inkband .h em { color: var(--lime); }
 
 /* proof */
-/* comparison: a typical cloud keyboard vs BooBoard */
-.vs { background: #221C21; border-radius: 28px; padding: 6px 24px 4px; }
+/* comparison: a typical keyboard vs BooBoard */
+.vs { background: #221C21; border-radius: 28px; padding: 6px 24px 12px; }
 .vs-head, .vs-row { display: grid; grid-template-columns: .8fr 1fr 1fr; gap: 16px; align-items: center; }
 .vs-head { padding: 18px 0 12px; font-size: 12.5px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: rgba(244,242,234,.55); }
 .vs-head .us { color: var(--lime); display: flex; align-items: center; gap: 8px; }
@@ -188,13 +188,12 @@ section { position: relative; }
 .vs-row .us::before { background: var(--lime) no-repeat center/11px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 10'%3E%3Cpath d='M1.5 5.2l3 3L10.5 1.8' fill='none' stroke='%23161015' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); transform: scale(0); transition: transform .4s cubic-bezier(.3,1.6,.5,1); transition-delay: calc(var(--r) * 90ms + 450ms); }
 .vs.is-in .vs-row .us::before { transform: scale(1); }
 @media (max-width: 600px) {
-  .vs { padding: 4px 18px 2px; }
+  .vs { padding: 4px 18px 10px; }
   .vs-head, .vs-row { grid-template-columns: 1fr 1fr; gap: 6px 14px; }
   .vs-head > span:first-child { display: none; }
   .vs-row b { grid-column: 1 / -1; font-size: 14px; color: rgba(244,242,234,.85); }
   .vs-row { font-size: 14.5px; }
 }
-.check { font-size: 14px; color: rgba(244,242,234,.7); margin: 14px 0 12px; }
 #privacy .inkband { padding-top: clamp(56px, 7vw, 100px); padding-bottom: clamp(48px, 6vw, 90px); }
 #privacy .vs { max-width: 820px; margin: 0 auto; }
 /* Boo flying down the card (moved by JS); rows and ticks follow Boo frame by frame, so no transitions then */

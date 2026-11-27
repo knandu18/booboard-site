@@ -139,7 +139,7 @@ function islTick(now) {
 requestAnimationFrame(islTick);
 // phones: crop to the middle of the drawing so the girl, tree, Boo and cloud come out bigger
 const islNarrow = matchMedia('(max-width: 600px)');
-const islFit = () => island.setAttribute('viewBox', islNarrow.matches ? '128 30 456 366' : '40 30 600 368');
+const islFit = () => island.setAttribute('viewBox', islNarrow.matches ? '128 30 456 396' : '40 30 600 400');
 islNarrow.addEventListener('change', islFit); islFit();
 
 let GEN = 0;
@@ -362,7 +362,9 @@ const flyBoo = (() => {
 io.observe(perm);
 const flyRaw = (t) => 0.62 * Math.sin(t * Math.PI * 2 * 0.95 + 0.4) + 0.38 * Math.sin(t * Math.PI * 2 * 1.7 + 2.12);
 const [flyMin, flyMax] = (() => { let a = 9, b = -9; for (let i = 0; i <= 400; i++) { const v = flyRaw(i / 400); a = Math.min(a, v); b = Math.max(b, v); } return [a, b]; })();
-const flyWave = (t) => ((flyRaw(t) - flyMin) / (flyMax - flyMin)) * 2 - 1;   // stretched so its widest swings touch both edges
+// stretched so its widest swings touch both edges, and mirrored so Boo heads to the LEFT edge first
+// (it stays clear of where a right thumb scrolls)
+const flyWave = (t) => 1 - ((flyRaw(t) - flyMin) / (flyMax - flyMin)) * 2;
 function flyTick(now) {
   requestAnimationFrame(flyTick);
   const F = flyBoo;
