@@ -270,10 +270,8 @@ function storyStatic() {
   storyPhone.querySelector('#tOut').textContent = '¿dónde está la estación?';
 }
 
-/* ---------- ticker, languages ---------- */
-const tick = ['No internet permission', 'Offline voice transcription in English', 'No account', 'No cloud', 'No analytics', 'Works in airplane mode', 'Open source'];
+/* ---------- languages ---------- */
 document.querySelectorAll('.boo-glyph').forEach((el) => (el.outerHTML = booGlyph));
-document.getElementById('tickmq').innerHTML = [0, 1].map(() => tick.map((t, i) => `<span class="hello ${i % 3 === 1 ? 'dark' : ''}">${booGlyph}<b>${t}</b></span>`).join('')).join('');
 const HELLO = [['Hello', 'English'], ['Hola', 'Español'], ['Bonjour', 'Français'], ['Hallo', 'Deutsch'], ['Olá', 'Português'], ['Halo', 'Bahasa Indonesia'], ['Kumusta', 'Filipino'], ['नमस्ते', 'हिन्दी'], ['नमस्कार', 'मराठी'],
   ['নমস্কার', 'বাংলা'], ['வணக்கம்', 'தமிழ்'], ['నమస్కారం', 'తెలుగు'], ['مرحبا', 'العربية'], ['آداب', 'اردو'], ['Привет', 'Русский'], ['Привіт', 'Українська'], ['你好', '中文'], ['こんにちは', '日本語']];
 const pill = ([h, n], i) => `<span class="hello ${i % 5 === 2 ? 'dark' : ''}"><b lang="">${h}</b><small>${n}</small></span>`;
@@ -322,7 +320,7 @@ function kinetic(h) {
   const word = (inner) => `<span class="w"><span style="--i:${i++}">${inner}</span></span>`;
   const out = [];
   for (const n of [...h.childNodes]) {
-    if (n.nodeType === 3) n.textContent.split(/\s+/).filter(Boolean).forEach((t) => out.push(word(t)));
+    if (n.nodeType === 3) n.textContent.split(/[ \t\r\n]+/).filter(Boolean).forEach((t) => out.push(word(t)));   // &nbsp; keeps a phrase in one piece
     else if (n.nodeName === 'EM') {
       const t = n.textContent;
       if (letters && t.startsWith(letters)) out.push(word(`<em>${[...t].map((c, j) => `<span class="l" style="--j:${j}">${c}</span>`).join('')}</em>`));
@@ -348,6 +346,52 @@ io.observe(heroTitle);
 /* ---------- scroll reveals, nav ---------- */
 const rv = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('is-in'); rv.unobserve(e.target); } }), { rootMargin: '0px 0px -12% 0px' });
 document.querySelectorAll('.in-view').forEach((el) => rv.observe(el));
+/* ---------- comparison card: a lime Boo drifts down it as you scroll ----------
+   Boo roams the full width on a gentle, never-repeating curve (two blended waves), hem lobes rippling all the
+   time (the real bodyPath), leaning and looking the way it drifts. It sits about 60% down the screen, so it
+   travels down the card as the card scrolls past; each row lights up and its tick grows as Boo passes, and Boo
+   leaves below the card. Scrolling back up runs it backwards. Reduce motion = the lit card, no Boo. */
+const perm = document.getElementById('perm');
+const flyBoo = (() => {
+  const el = document.createElement('div');
+  el.className = 'flyboo'; el.setAttribute('aria-hidden', 'true');
+  el.innerHTML = `<svg viewBox="-8 -4 116 140"><path class="bp" fill="#E3F794"/><g class="ey"><ellipse cx="36" cy="50" rx="9" ry="12.5" fill="#161015"/><ellipse cx="64" cy="50" rx="9" ry="12.5" fill="#161015"/></g></svg>`;
+  perm.parentElement.appendChild(el);
+  return { el, bp: el.querySelector('.bp'), ey: el.querySelector('.ey'), rows: [...perm.querySelectorAll('.vs-row')] };
+})();
+io.observe(perm);
+const flyRaw = (t) => 0.62 * Math.sin(t * Math.PI * 2 * 0.95 + 0.4) + 0.38 * Math.sin(t * Math.PI * 2 * 1.7 + 2.12);
+const [flyMin, flyMax] = (() => { let a = 9, b = -9; for (let i = 0; i <= 400; i++) { const v = flyRaw(i / 400); a = Math.min(a, v); b = Math.max(b, v); } return [a, b]; })();
+const flyWave = (t) => ((flyRaw(t) - flyMin) / (flyMax - flyMin)) * 2 - 1;   // stretched so its widest swings touch both edges
+function flyTick(now) {
+  requestAnimationFrame(flyTick);
+  const F = flyBoo;
+  if (RM()) {
+    if (!F.still) { F.still = true; perm.classList.remove('fly'); F.el.style.opacity = 0; F.rows.forEach((r) => { r.style.opacity = ''; r.style.removeProperty('--k'); }); }
+    return;
+  }
+  F.still = false;
+  if (!vis.get(perm)) return;
+  perm.classList.add('fly');
+  const bw = F.el.offsetWidth, cl = perm.offsetLeft, cw = perm.offsetWidth, ct = perm.offsetTop, ch = perm.offsetHeight;
+  const L = cl + bw * 0.55, R = cl + cw - bw * 0.55, Y0 = ct - bw * 1.4, Y1 = ct + ch + bw * 0.4;
+  const top = perm.getBoundingClientRect().top;
+  const p = (innerHeight * 0.6 - top + ct - Y0) / (Y1 - Y0);       // Boo rides about 60% down the screen
+  const t = Math.min(1, Math.max(0, p));
+  const pos = (u) => [(L + R) / 2 + (R - L) / 2 * flyWave(u), Y0 + (Y1 - Y0) * (u + 0.025 * Math.sin(u * Math.PI * 4))];
+  const [x, y] = pos(t), [x2] = pos(Math.min(1, t + 0.01));
+  const lean = Math.max(-1, Math.min(1, (x2 - x) / 7)), w = now / 1000;
+  F.bp.setAttribute('d', bodyPath(w, lean));
+  F.el.style.transform = `translate(${(x - bw / 2).toFixed(1)}px,${(y - bw * 0.65 + Math.sin(w * 1.85) * 3).toFixed(1)}px) rotate(${(lean * 7).toFixed(1)}deg)`;
+  F.el.style.opacity = p <= 0 || p >= 1 ? 0 : Math.min(1, t * 12, (1 - t) * 12).toFixed(3);
+  F.ey.setAttribute('transform', `translate(${(lean * 6).toFixed(1)} 3)`);
+  for (const r of F.rows) {
+    const k = Math.min(1, Math.max(0, (y - (ct + r.offsetTop + r.offsetHeight / 2) + 30) / 60));
+    r.style.opacity = (0.22 + 0.78 * k).toFixed(3); r.style.setProperty('--k', k.toFixed(3));
+  }
+}
+requestAnimationFrame(flyTick);
+
 const nav = document.getElementById('nav');
 addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 10), { passive: true });
 
