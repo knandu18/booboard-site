@@ -117,13 +117,15 @@ img, svg { display: block; }
 /* phones: JS crops the drawing to its middle, so the people come out bigger */
 .sea-fill { display: none; }
 /* phones: the hero is exactly one screen tall and the sea carries on below the drawing to the bottom of the
-   screen (more drifting waves in it); its fade into the page sits just below the fold */
+   screen (more drifting waves in it), fading out at its end; the dark comparison card follows right after */
 @media (max-width: 600px) {
   .hero { display: flex; flex-direction: column; align-items: stretch; min-height: calc(100svh - 76px); padding-bottom: 0; }
   .art { margin: 4px calc(-1 * var(--pad)) 0; width: auto; flex: 1; display: flex; flex-direction: column; }
-  .art::after { content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 56px; background: linear-gradient(#A9DDF7, rgba(169,221,247,0)); pointer-events: none; }
+  #privacy.sec { padding-top: 16px; }
   .isl { flex: none; display: block; -webkit-mask-image: none; mask-image: none; }
-  .sea-fill { display: block; flex: 1; margin-top: -1px; background: #A9DDF7 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='64'%3E%3Cpath d='M14 18q8-5 16 0t16 0t16 0M92 46q8-5 16 0t16 0' fill='none' stroke='%233E97CF' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E") 0 6px / 160px 64px; animation: seaFill 10s linear infinite; }
+  /* at least ~72px of sea even when the screen is short; its last 44px fade softly into the page */
+  .sea-fill { display: block; flex: 1; min-height: 72px; margin-top: -1px;
+    -webkit-mask-image: linear-gradient(#000 calc(100% - 44px), transparent); mask-image: linear-gradient(#000 calc(100% - 44px), transparent); background: #A9DDF7 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='64'%3E%3Cpath d='M14 18q8-5 16 0t16 0t16 0M92 46q8-5 16 0t16 0' fill='none' stroke='%233E97CF' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E") 0 6px / 160px 64px; animation: seaFill 10s linear infinite; }
   .isl .plane { --pf: 46px; }
 }
 @keyframes seaFill { to { background-position: 160px 6px; } }
