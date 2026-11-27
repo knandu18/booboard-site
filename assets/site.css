@@ -12,6 +12,9 @@
   --pad: clamp(20px, 4vw, 56px);
   --ease: cubic-bezier(.2,.8,.2,1);
 }
+/* light only: no dark mode, and browsers that force-darken pages (Chrome "darken websites", Samsung Internet,
+   Opera) are told to leave our colours alone */
+:root { color-scheme: only light; }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body { margin: 0; background: var(--lime); color: var(--ink); font: 400 17px/1.55 GSF, system-ui, sans-serif; letter-spacing: -0.01em; -webkit-font-smoothing: antialiased; overflow-x: hidden; }

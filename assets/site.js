@@ -95,7 +95,7 @@ function kbHTML(lang = 'English') {
     <div class="gesture"><i></i></div></div>`;
 }
 function phoneHTML(inner) {
-  return `<div class="screen"><div class="sbar"><span>9:41</span><span>● ● ▮</span></div>${inner}</div>`;
+  return `<div class="screen"><div class="sbar"><span>11:11</span><span>● ● ▮</span></div>${inner}</div>`;
 }
 
 /* ---------- hero: island scene. Boo (real BooMotion) keeps the internet cloud away from the girl ---------- */
